@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>کانفیگ رایگان - @Configino_ir</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(145deg, #0b0a1a 0%, #1a1a3a 100%);
+      color: #f0f0f0;
+      text-align: center;
+      padding: 24px 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 820px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #a0f0c0, #50d8a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+    }
+    .sub {
+      color: #aaa;
+      margin-bottom: 28px;
+      font-size: 16px;
+      border-bottom: 1px dashed #334;
+      padding-bottom: 16px;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .btn {
+      padding: 16px 34px;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 60px;
+      background: #1e2a4a;
+      color: white;
+      box-shadow: 0 6px 0 #0f1428, 0 10px 20px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: all 0.08s linear;
+      min-width: 180px;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #0f1428;
+    }
+    .config-btn {
+      background: #2b8c5e;
+      box-shadow: 0 6px 0 #1a5a3a, 0 10px 20px rgba(0,0,0,0.4);
+    }
+    .dns-btn {
+      background: #2a6b9e;
+      box-shadow: 0 6px 0 #18426a, 0 10px 20px rgba(0,0,0,0.4);
+    }
+    .result-box {
+      background: rgba(20, 25, 50, 0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid #3a4a6a;
+      border-radius: 24px;
+      padding: 18px 14px 14px 14px;
+      margin-top: 12px;
+      text-align: right;
+      position: relative;
+      display: none;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+    }
+    .result-box.show {
+      display: block;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #f5b042;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      color: #0b0a1a;
+      font-size: 15px;
+      box-shadow: 0 3px 0 #8f621f;
+      cursor: pointer;
+      transition: 0.1s linear;
+      z-index: 12;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .copy-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 0px 0 #8f621f;
+    }
+    #content {
+      margin-top: 48px;
+      text-align: left;
+      direction: ltr;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 15px;
+      line-height: 1.7;
+      background: rgba(0,0,0,0.2);
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid #2f3f5f;
+      max-height: 600px;
+      overflow-y: auto;
+      color: #d4e4ff;
+      font-family: 'Courier New', monospace;
+    }
+    #content strong {
+      color: #8cf0b0;
+      font-family: Tahoma, sans-serif;
+    }
+    .status {
+      color: #7fd6b0;
+    }
+    .error {
+      color: #f77;
+    }
+    .footer {
+      margin-top: 34px;
+      color: #667;
+      font-size: 15px;
+      border-top: 1px solid #2a2a44;
+      padding-top: 20px;
+      width: 100%;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .footer a {
+      color: #8ac;
+      text-decoration: none;
+    }
+    .badge {
+      background: #1f2a44;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 13px;
+      color: #aac;
+      display: inline-block;
+    }
+    @media (max-width: 600px) {
+      .btn { min-width: 140px; padding: 14px 18px; font-size: 16px; }
+      #content { font-size: 13px; padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🔄 کانفیگ‌های ویژه</h1>
+  <div class="sub">🎯 بروزرسانی از منابع معتبر &nbsp;|&nbsp; <span class="badge">@Configino_ir</span></div>
+
+  <div class="btn-group">
+    <button class="btn config-btn" onclick="getBestConfigs()">📡 کانفیگ رایگان</button>
+    <button class="btn dns-btn" onclick="getRandomDNS()">🌐 DNS رایگان</button>
+  </div>
+
+  <div id="resultBox" class="result-box">
+    <button class="copy-btn" onclick="copyToClipboard()">📋 کپی کردن</button>
+    <div id="content">⏳ منتظر بمانید...</div>
+  </div>
+
+  <div class="footer">
+    <span style="color:#8a9abb;">@Configino_ir</span> — همیشه رایگان
+  </div>
+</div>
+
+<script>
+  (function() {
+    // منابع کانفیگ (همانند قبل)
+    const configSources = [
+      "https://raw.githubusercontent.com/barry-far/V2ray-Config/main/All_Configs_Sub.txt",
+      "https://raw.githubusercontent.com/ebrasha/free-v2ray-public-list/main/V2Ray-Config-By-EbraSha-All-Type.txt",
+      "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/v2ray/super-sub.txt",
+      "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/all_configs.txt"
+    ];
+
+    // تابع تغییر نام به Configino_ir (بدون تغییر ساختار)
+    function renameToConfigino(line) {
+      const clean = line.trim();
+      if (!clean) return null;
+
+      // برای vmess
+      if (clean.startsWith('vmess://')) {
+        try {
+          const parts = clean.split('#');
+          const base = parts[0].split('?')[0];
+          const encoded = base.replace('vmess://', '');
+          const decoded = JSON.parse(atob(encoded));
+          decoded.ps = "@Configino_ir";
+          const newBase = `vmess://${btoa(JSON.stringify(decoded))}`;
+          // اگر هشتگ داشت حذف و با هشتگ جدید
+          return `${newBase}#@Configino_ir`;
+        } catch (e) {
+          // fallback: فقط هشتگ را عوض کن
+          const withoutHash = clean.split('#')[0];
+          return `${withoutHash}#@Configino_ir`;
+        }
+      }
+      // برای vless, trojan, ss
+      else if (clean.includes('vless://') || clean.includes('trojan://') || clean.includes('ss://')) {
+        const withoutHash = clean.split('#')[0];
+        return `${withoutHash}#@Configino_ir`;
+      }
+      return null;
+    }
+
+    // تابع دریافت کانفیگ
+    window.getBestConfigs = async function() {
+      const resultBox = document.getElementById('resultBox');
+      const contentDiv = document.getElementById('content');
+      
+      resultBox.classList.add('show');
+      contentDiv.innerHTML = '<span class="status">⏳ در حال دریافت بهترین کانفیگ‌ها...</span>';
+
+      let success = false;
+      for (const url of configSources) {
+        try {
+          const res = await fetch(url, { cache: 'no-cache' });
+          if (!res.ok) continue;
+
+          const text = await res.text();
+          const lines = text.split('\n')
+            .map(l => l.trim())
+            .filter(l => 
+              l.length > 50 && 
+              (l.startsWith('vmess://') || 
+               l.startsWith('vless://') || 
+               l.startsWith('trojan://') || 
+               l.startsWith('ss://'))
+            );
+
+          if (lines.length > 0) {
+            // انتخاب حداکثر ۶ کانفیگ و تغییر نام
+            const renamed = lines.slice(0, 6)
+              .map(renameToConfigino)
+              .filter(Boolean);
+
+            if (renamed.length > 0) {
+              const finalText = renamed.join('\n\n');
+              contentDiv.innerHTML = `<strong style="color:#8cf0b0;">✅ کانفیگ‌های آماده ( @Configino_ir )</strong><br><br>${finalText}`;
+              success = true;
+              break;
+            }
+          }
+        } catch (e) {
+          console.warn('خطا در دریافت از:', url, e);
+        }
+      }
+
+      if (!success) {
+        contentDiv.innerHTML = `<span class="error">❌ دریافت ناموفق. لطفاً بعداً امتحان کنید.</span>`;
+      }
+    };
+
+    // DNS تصادفی
+    window.getRandomDNS = function() {
+      const dnsList = [
+        "1.1.1.1\n1.0.0.1",
+        "8.8.8.8\n8.8.4.4",
+        "178.22.122.100\n185.51.200.2",
+        "94.140.14.14\n94.140.15.15",
+        "78.157.42.100\n78.157.42.101",
+        "208.67.222.222\n208.67.220.220"
+      ];
+      
+      const selected = [];
+      while (selected.length < 3) {
+        const item = dnsList[Math.floor(Math.random() * dnsList.length)];
+        if (!selected.includes(item)) selected.push(item);
+      }
+
+      let text = "🌐 DNS های پیشنهادی:\n\n";
+      selected.forEach((dns, i) => text += `DNS ${i+1}:\n${dns}\n\n`);
+      
+      const contentDiv = document.getElementById('content');
+      const resultBox = document.getElementById('resultBox');
+      contentDiv.innerHTML = text;
+      resultBox.classList.add('show');
+    };
+
+    // کپی کردن با اولویت کلیپ بورد
+    window.copyToClipboard = function() {
+      const contentDiv = document.getElementById('content');
+      let rawText = contentDiv.innerText || contentDiv.textContent;
+      
+      // حذف خطوط عنوان (شروع با ✅ یا 🌐)
+      let lines = rawText.split('\n');
+      const filtered = lines.filter(line => {
+        const trimmed = line.trim();
+        return !(trimmed.startsWith('✅') || trimmed.startsWith('🌐') || trimmed.includes('کانفیگ‌های آماده') || trimmed.includes('DNS های پیشنهادی'));
+      });
+      let textToCopy = filtered.join('\n').trim();
+
+      if (!textToCopy) {
+        alert('⚠️ محتوایی برای کپی وجود ندارد!');
+        return;
+      }
+
+      // تلاش برای کپی با API مدرن
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => showCopySuccess())
+          .catch(() => fallbackCopy(textToCopy));
+      } else {
+        fallbackCopy(textToCopy);
+      }
+    };
+
+    function fallbackCopy(text) {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.select();
+      try {
+        document.execCommand('copy');
+        showCopySuccess();
+      } catch (e) {
+        alert('کپی نشد، لطفاً دستی کپی کنید.');
+      }
+      document.body.removeChild(temp);
+    }
+
+    function showCopySuccess() {
+      const btn = document.querySelector('.copy-btn');
+      const originalText = btn.innerHTML;
+      btn.style.background = '#6fcf97';
+      btn.innerHTML = '✅ کپی شد!';
+      setTimeout(() => {
+        btn.style.background = '#f5b042';
+        btn.innerHTML = originalText;
+      }, 2500);
+    }
+
+    // نمایش اولیه (اختیاری)
+    window.addEventListener('load', function() {
+      // در صورت تمایل میتوان پیام پیش‌فرض نشان داد
+      const resultBox = document.getElementById('resultBox');
+      const contentDiv = document.getElementById('content');
+      resultBox.classList.add('show');
+      contentDiv.innerHTML = '🔍 روی دکمه "کانفیگ رایگان" یا "DNS رایگان" کلیک کنید.';
+    });
+
+  })();
+</script>
+</body>
+</html>
